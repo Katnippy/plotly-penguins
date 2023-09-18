@@ -28,6 +28,7 @@ sex_radio = dcc.RadioItems([
     value="",
     inline=True
     )
+# TODO: Explain what these measurements mean.
 variable_radio = dcc.RadioItems([
     {"label": "Culmen Length (mm)", "value": "culmen_length_mm"},
     {"label": "Culmen Depth (mm)", "value": "culmen_depth_mm"},
@@ -55,7 +56,7 @@ app.layout = html.Div([
     html.Div(children=[
         html.H4("Variable", style={"display": "inline"}),
         variable_radio
-        ]),
+        ])
     ])
 
 @app.callback(
