@@ -79,7 +79,7 @@ def update_graph(species: str, explanatory: str, response: str) -> go.Figure():
            response (str): The user's choice for the response variable.
 
        Returns:
-           `fig`, a Plotly Express 3D scattergraph (`go.Figure()`).
+           `figure`, a Plotly Express scattergraph (`go.Figure()`).
     """
     figure = LinearRegression(species, explanatory, response).build_query()
 

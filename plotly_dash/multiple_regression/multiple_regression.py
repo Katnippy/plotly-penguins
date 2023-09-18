@@ -100,9 +100,7 @@ def update_graphs(species: str, first_explanatory: str,
            response (str): The user's choice for the response variable.
 
        Returns:
-           Calls splom.__call__() and scattergraph.__call__(), which return a 
-           Plotly Express scatterplot matrix and 3D scattergraph respectively 
-           (`go.Figure()`).
+           `figure`, a Plotly Express 3D scattergraph (`go.Figure()`).
     """
     figure = MultipleRegression(species, first_explanatory, second_explanatory,
                                 response).build_query()
