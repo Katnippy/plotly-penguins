@@ -13,6 +13,23 @@ import statsmodels.api as sm
 import plotly.graph_objects as go
 
 
+class GraphUtils:
+    """Labels and colours for graphs."""
+    labels = {
+        "culmen_length_mm": "Culmen Length (mm)",
+        "culmen_depth_mm": "Culmen Depth (mm)",
+        "flipper_length_mm": "Flipper Length (mm)",
+        "body_mass_g": "Body Mass (g)",
+        "delta_15_N_ppt": "δ15N (‰)",
+        "delta_13_C_ppt": "δ13C (‰)",
+        }
+    colours = {
+        "'Adelie%'": "deeppink",
+        "'Chinstrap%'": "black",
+        "'Gentoo%'": "darkorange"
+        }
+
+
 class Histogram:
     """A histogram."""
     def __init__(self, species: str, sex: str, variable: str):
@@ -183,6 +200,14 @@ class MultipleRegression:
         self.second_explanatory = second_explanatory
         self.response = response
 
+        self.first_explanatory_label = (
+            GraphUtils.labels[self.first_explanatory])
+        self.second_explanatory_label = (
+            GraphUtils.labels[self.second_explanatory])
+        self.response_label = GraphUtils.labels[self.response]
+        self.species_colour = GraphUtils.colours[self.species]
+
+
     def build_query(self):
         """Build a SQL query from the user's chosen variables and species.
         
@@ -235,8 +260,27 @@ class MultipleRegression:
            Returns:
                `fig` from draw_plane().
         """
-        fig = px.scatter_3d(df, x=self.first_explanatory, 
-                            y=self.second_explanatory, z=self.response,)
+        fig = px.scatter_3d(
+            df,
+            x=self.first_explanatory,
+            y=self.second_explanatory,
+            z=self.response,
+            labels={
+                self.first_explanatory: self.first_explanatory_label,
+                self.second_explanatory: self.second_explanatory_label,
+                self.response: self.response_label
+                }
+            )
+        fig.update_traces(
+            marker=dict(
+                size=4,
+                color=self.species_colour,
+                line=dict(
+                    width=2,
+                    color='white' if self.species == "'Chinstrap%'"
+                        else 'black')
+                )
+            )
 
         return self._fit_model(df, fig)
     
@@ -296,6 +340,24 @@ class MultipleRegression:
             )
         z = z_intercept + (x_slope * xx1) + (y_slope * xx2)
 
-        fig.add_trace(go.Surface(x=xx1, y=xx2, z=z))
+        # ! Equation text is quite lengthy.
+        # ? hovertemplate code isn't very human-readable.
+        fig.add_trace(go.Surface(
+            x=xx1,
+            y=xx2,
+            z=z,
+            hovertemplate='<b>OLS plane</b><br>'
+                          f'{self.response_label} = {x_slope:.8f} * '
+                          f'{self.first_explanatory_label} + {y_slope:.8f} * '
+                          f'{self.second_explanatory_label} + '
+                          f'{z_intercept:.3f}'
+                          f'<br>Adjusted R²={model.rsquared_adj:.6f}<br><br>'
+                          f'{self.first_explanatory_label}=''%{x:.4f}<br>'
+                          f'{self.second_explanatory_label}=''%{y:.4f}<br>'
+                          f'{self.response_label}=''%{z:.4f} '
+                          '<b>(trend)</b><extra></extra>',
+            colorscale='haline',
+            colorbar=dict(title=f'Predicted {self.response_label}')
+            ))
 
         return fig
