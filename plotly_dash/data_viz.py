@@ -43,6 +43,8 @@ class Histogram:
         self.sex = sex
         self.variable = variable
 
+        self.variable_label = GraphUtils.labels[variable]
+
     def build_query(self):
         """Build a SQL query from the user's chosen variable and filters.
         
@@ -106,10 +108,25 @@ class Histogram:
            Returns:
                `fig`, a Plotly Express histogram (`go.Figure()`).
         """
+        # ? Add colours for when a specific species and sex are both selected?
+        colours = {
+            " AND species LIKE 'Adelie%'": "deeppink",
+            " AND species LIKE 'Chinstrap%'": "black",
+            " AND species LIKE 'Gentoo%'": "darkorange",
+            " AND sex LIKE 'MALE'": "green",
+            " AND sex LIKE 'FEMALE'": "yellow"
+        }
+
         # ! Plotly Express handles number of bins strangely...
         sqrt_of_data_points = int(sqrt(df.shape[0]))
         fig = px.histogram(df, x=self.variable, histnorm='probability',
                            nbins=sqrt_of_data_points)
+        fig.update_layout(xaxis_title=self.variable_label,
+                          yaxis_title='Probability')
+        fig.update_traces(
+            marker_color=colours[self.species] if self.species else
+            (colours[self.sex] if self.sex else "cornflowerblue")
+            )
 
         return fig
     
