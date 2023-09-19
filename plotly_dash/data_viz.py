@@ -226,12 +226,10 @@ class MultipleRegression:
         self.second_explanatory = second_explanatory
         self.response = response
 
-        self.first_explanatory_label = (
-            GraphUtils.labels[self.first_explanatory])
-        self.second_explanatory_label = (
-            GraphUtils.labels[self.second_explanatory])
-        self.response_label = GraphUtils.labels[self.response]
-        self.species_colour = GraphUtils.colours[self.species]
+        self.first_explanatory_label = GraphUtils.labels[first_explanatory]
+        self.second_explanatory_label = GraphUtils.labels[second_explanatory]
+        self.response_label = GraphUtils.labels[response]
+        self.species_colour = GraphUtils.colours[species]
 
 
     def build_query(self):
