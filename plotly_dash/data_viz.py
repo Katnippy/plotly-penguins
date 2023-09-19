@@ -127,6 +127,10 @@ class LinearRegression:
         self.explanatory = explanatory
         self.response = response
 
+        self.explanatory_label = GraphUtils.labels[explanatory]
+        self.response_label = GraphUtils.labels[response]
+        self.species_colour = GraphUtils.colours[species]
+
     def build_query(self):
         """Build a SQL query from the user's chosen variables and species.
         
@@ -179,7 +183,29 @@ class LinearRegression:
         """
         fig = px.scatter(df, x=self.explanatory, y=self.response,
                          trendline='ols')
-
+        fig.update_layout(xaxis_title=self.explanatory_label,
+                          yaxis_title=self.response_label)
+        fig.update_traces(marker_color=self.species_colour)
+        fig.data[0]["hovertemplate"] = (f"{self.explanatory_label}=""%{x}<br>"
+                                        f"{self.response_label}=""%{y}<extra>"
+                                        "</extra>")
+        
+        x_slope = (
+            px.get_trendline_results(fig).px_fit_results.iloc[0].params[1])
+        y_intercept = (
+            px.get_trendline_results(fig).px_fit_results.iloc[0].params[0])
+        r_squared = (
+            px.get_trendline_results(fig).px_fit_results.iloc[0].rsquared)
+        fig.data[1]["hovertemplate"] = ("<b>OLS trendline</b><br>"
+                                        f"{self.response_label} = "
+                                        f"{x_slope:.8f} * "
+                                        f"{self.explanatory_label} + "
+                                        f"{y_intercept:.3f}<br>R²="
+                                        f"{r_squared:.6f}<br><br>"
+                                        f"{self.explanatory_label}=""%{x}<br>"
+                                        f"{self.response_label}=""%{y:.4f} <b>"
+                                        "(trend)</b><extra></extra>")
+        
         return fig
     
 
