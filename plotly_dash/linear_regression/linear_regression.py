@@ -61,6 +61,7 @@ app.layout = html.Div([
         ], className='response-radio')
     ])
 
+
 @app.callback(
     Output(graph, component_property='figure'),
     Input(species_radio, component_property='value'),
@@ -84,6 +85,7 @@ def update_graph(species: str, explanatory: str, response: str) -> go.Figure():
     figure = LinearRegression(species, explanatory, response).build_query()
 
     return figure
+
 
 # Run app with debug enabled.
 if __name__ == "__main__":

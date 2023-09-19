@@ -59,6 +59,7 @@ app.layout = html.Div([
         ])
     ])
 
+
 @app.callback(
     Output(graph, component_property='figure'),
     Input(species_radio, component_property='value'),
@@ -83,6 +84,7 @@ def update_graph(species: str, sex: str, variable: str) -> go.Figure():
     figure = Histogram(species, sex, variable).build_query()
 
     return figure
+
 
 # Run app with debug enabled.
 if __name__ == "__main__":

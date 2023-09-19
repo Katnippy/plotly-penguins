@@ -12,6 +12,7 @@ from math import sqrt
 import statsmodels.api as sm
 import plotly.graph_objects as go
 
+
 class Histogram:
     """A histogram."""
     def __init__(self, species: str, sex: str, variable: str):
@@ -52,6 +53,8 @@ class Histogram:
 
     # TODO: Handle exception(s) if connection / query fails.
     # ? Does this need to be split up into 2 separate functions?
+    # ? This method can be found in the 2 other functions. Can we do anything
+    # ? about that?
     def create_dataframe(self, query: sqlalchemy.TextClause()) -> go.Figure():
         """Create a dataframe by querying the database.
 
@@ -86,6 +89,7 @@ class Histogram:
            Returns:
                `fig`, a Plotly Express histogram (`go.Figure()`).
         """
+        # ! Plotly Express handles number of bins strangely...
         fig = px.histogram(df, x=self.variable, histnorm='probability',
                            nbins=int(sqrt(df.shape[0])))
 

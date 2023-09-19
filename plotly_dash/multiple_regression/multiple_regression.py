@@ -77,6 +77,7 @@ app.layout = html.Div([
         ], className='response-radio')
     ])
 
+
 @app.callback(
     Output(graph, component_property='figure'),
     Input(species_radio, component_property='value'),
@@ -106,6 +107,7 @@ def update_graphs(species: str, first_explanatory: str,
                                 response).build_query()
 
     return figure
+
 
 # Run app with debug enabled.
 if __name__ == "__main__":
