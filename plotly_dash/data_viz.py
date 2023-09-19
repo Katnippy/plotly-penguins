@@ -49,13 +49,13 @@ class Histogram:
             pass
         query = text(query)
 
-        return self.create_dataframe(query)
+        return self._create_dataframe(query)
 
     # TODO: Handle exception(s) if connection / query fails.
     # ? Does this need to be split up into 2 separate functions?
     # ? This method can be found in the 2 other functions. Can we do anything
     # ? about that?
-    def create_dataframe(self, query: sqlalchemy.TextClause()) -> go.Figure():
+    def _create_dataframe(self, query: sqlalchemy.TextClause()) -> go.Figure():
         """Create a dataframe by querying the database.
 
            With the query provided by build_query(), connect to the database
@@ -74,9 +74,9 @@ class Histogram:
         df = df.replace(r"^\s*$", np.nan, regex=True)
         df = df.dropna()
 
-        return self.create_graph(df)
+        return self._create_graph(df)
 
-    def create_graph(self, df: pd.DataFrame()) -> go.Figure():
+    def _create_graph(self, df: pd.DataFrame()) -> go.Figure():
         """Create a histogram.
            
            Create a histogram with the user's chosen variable on the x-axis and 
@@ -124,9 +124,9 @@ class LinearRegression:
                          WHERE species 
                          LIKE {self.species}""")
 
-        return self.create_dataframe(query)
+        return self._create_dataframe(query)
     
-    def create_dataframe(self, query: sqlalchemy.TextClause()) -> go.Figure():
+    def _create_dataframe(self, query: sqlalchemy.TextClause()) -> go.Figure():
         """Create a dataframe by querying the database.
 
            With the query provided by build_query(), connect to the database
@@ -145,9 +145,9 @@ class LinearRegression:
         df = df.replace(r"^\s*$", np.nan, regex=True)
         df = df.dropna()
 
-        return self.create_graph(df)
+        return self._create_graph(df)
     
-    def create_graph(self, df: pd.DataFrame()) -> go.Figure():
+    def _create_graph(self, df: pd.DataFrame()) -> go.Figure():
         """Create a linear regression scattergraph.
            
            Create a scattergraph with a least squares line of best fit from the
@@ -199,9 +199,9 @@ class MultipleRegression:
                          WHERE species 
                          LIKE {self.species}""")
 
-        return self.create_dataframe(query)
+        return self._create_dataframe(query)
     
-    def create_dataframe(self, query: sqlalchemy.TextClause()) -> go.Figure():
+    def _create_dataframe(self, query: sqlalchemy.TextClause()) -> go.Figure():
         """Create a dataframe by querying the database.
 
            With the query provided by build_query(), connect to the database
@@ -220,9 +220,9 @@ class MultipleRegression:
         df = df.replace(r"^\s*$", np.nan, regex=True)
         df = df.dropna()
 
-        return self.create_graph(df)
+        return self._create_graph(df)
 
-    def create_graph(self, df: pd.DataFrame()) -> go.Figure():
+    def _create_graph(self, df: pd.DataFrame()) -> go.Figure():
         """Create a 3D scattergraph.
            
            Create a 3D scattergraph from the three variables and pass it and 
@@ -238,9 +238,9 @@ class MultipleRegression:
         fig = px.scatter_3d(df, x=self.first_explanatory, 
                             y=self.second_explanatory, z=self.response,)
 
-        return self.fit_model(df, fig)
+        return self._fit_model(df, fig)
     
-    def fit_model(self, df: pd.DataFrame(), fig: go.Figure()) -> go.Figure():
+    def _fit_model(self, df: pd.DataFrame(), fig: go.Figure()) -> go.Figure():
         """Fit a multiple regression model.
 
            Fit a multiple regression model to the data using least squares.
@@ -262,10 +262,10 @@ class MultipleRegression:
         X = sm.add_constant(X)
         model = sm.OLS(y, X).fit()
 
-        return self.draw_plane(first_explanatory, second_explanatory, model,
+        return self._draw_plane(first_explanatory, second_explanatory, model,
                                fig)
     
-    def draw_plane(
+    def _draw_plane(
             self, 
             first_explanatory: pd.Series(),
             second_explanatory: pd.Series(),
