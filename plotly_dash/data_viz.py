@@ -296,14 +296,11 @@ class MultipleRegression:
                 }
             )
         fig.update_traces(
-            marker=dict(
-                size=4,
-                color=self.species_colour,
-                line=dict(
-                    width=2,
-                    color='white' if self.species == "'Chinstrap%'"
-                        else 'black')
-                )
+            marker_size=4,
+            marker_color=self.species_colour,
+            marker_line_width=2,
+            marker_line_color=
+                'white' if self.species == "'Chinstrap%'" else 'black'
             )
 
         return self._fit_model(df, fig)
