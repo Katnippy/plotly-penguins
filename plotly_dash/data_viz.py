@@ -90,8 +90,9 @@ class Histogram:
                `fig`, a Plotly Express histogram (`go.Figure()`).
         """
         # ! Plotly Express handles number of bins strangely...
+        sqrt_of_data_points = int(sqrt(df.shape[0]))
         fig = px.histogram(df, x=self.variable, histnorm='probability',
-                           nbins=int(sqrt(df.shape[0])))
+                           nbins=sqrt_of_data_points)
 
         return fig
     
