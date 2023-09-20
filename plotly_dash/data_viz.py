@@ -28,6 +28,31 @@ class GraphUtils:
         "'Chinstrap%'": "black",
         "'Gentoo%'": "darkorange"
         }
+    
+
+# TODO: Handle exception(s) if connection / query fails.
+# ? Does this need to be split up into 2 separate functions?
+def _create_dataframe(query: sqlalchemy.TextClause()) -> pd.DataFrame():
+    """Create a dataframe by querying the database.
+
+       With the query provided by build_query(), connect to the database
+       and place the results in a dataframe. Finally, return the (cleaned) 
+       dataframe.
+
+       Params:
+           query (`sqlalchemy.TextClause()`): A class representing an SQL
+               query.
+
+       Returns:
+           df, a Pandas dataframe (`pd.Dataframe()`) with a column or columns
+           for the user's chosen variable(s), species, etc.
+        """
+    engine = create_engine("sqlite:///plotly_dash/palmerpenguins.sq3")
+    df = pd.read_sql_query(query, engine)
+    df = df.replace(r"^\s*$", np.nan, regex=True)
+    df = df.dropna()
+
+    return df
 
 
 class Histogram:
@@ -46,10 +71,10 @@ class Histogram:
         self.variable_label = GraphUtils.labels[variable]
 
     def build_query(self):
-        """Build a SQL query from the user's chosen variable and filters.
+        """Build an SQL query from the user's chosen variable and filters.
         
-           Build a SQL query from the user's chosen variable and filters (if 
-           applicable) which is then passed to create_dataframe().
+           Build an SQL query from the user's chosen variable and filters (if 
+           applicable) which is then passed to _create_graph().
            
            Returns:
                `fig` from create_graph().
@@ -68,47 +93,24 @@ class Histogram:
             pass
         query = text(query)
 
-        return self._create_dataframe(query)
+        return self._create_graph(query)
 
-    # TODO: Handle exception(s) if connection / query fails.
-    # ? Does this need to be split up into 2 separate functions?
-    # ? This method can be found in the 2 other functions. Can we do anything
-    # ? about that?
-    def _create_dataframe(self, query: sqlalchemy.TextClause()) -> go.Figure():
-        """Create a dataframe by querying the database.
-
-           With the query provided by build_query(), connect to the database
-           and place the results in a dataframe. Finally, pass the (clean) 
-           dataframe to create_graph().
-
-           Params:
-               query (`sqlalchemy.TextClause()`): A class representing a SQL
-                   query.
-
-           Returns:
-               `fig` from create_graph().
-        """
-        engine = create_engine("sqlite:///plotly_dash/palmerpenguins.sq3")
-        df = pd.read_sql_query(query, engine)
-        df = df.replace(r"^\s*$", np.nan, regex=True)
-        df = df.dropna()
-
-        return self._create_graph(df)
-
-    def _create_graph(self, df: pd.DataFrame()) -> go.Figure():
+    def _create_graph(self, query: sqlalchemy.TextClause()) -> go.Figure():
         """Create a histogram.
            
            Create a histogram with the user's chosen variable on the x-axis and 
            probability on the y-axis and return it.
            
            Params:
-               df (`pd.Dataframe()`): A dataframe with a single column for the 
-                   user's chosen variable.
+               query (`sqlalchemy.TextClause()`): A class representing an SQL
+                   query.
 
            Returns:
                `fig`, a Plotly Express histogram (`go.Figure()`).
         """
+        df = _create_dataframe(query)
         # ? Add colours for when a specific species and sex are both selected?
+        # TODO: Surely these colours can be moved to GraphUtils()...
         colours = {
             " AND species LIKE 'Adelie%'": "deeppink",
             " AND species LIKE 'Chinstrap%'": "black",
@@ -165,10 +167,10 @@ class LinearRegression:
         self.species_colour = GraphUtils.colours[species]
 
     def build_query(self):
-        """Build a SQL query from the user's chosen variables and species.
+        """Build an SQL query from the user's chosen variables and species.
         
-           Build a SQL query from the user's chosen variables and species
-           which is then passed to create_dataframe().
+           Build an SQL query from the user's chosen variables and species
+           which is then passed to _create_graph().
            
            Returns:
                `fig` from create_graph().
@@ -178,42 +180,22 @@ class LinearRegression:
                          WHERE species 
                          LIKE {self.species}""")
 
-        return self._create_dataframe(query)
+        return self._create_graph(query)
     
-    def _create_dataframe(self, query: sqlalchemy.TextClause()) -> go.Figure():
-        """Create a dataframe by querying the database.
-
-           With the query provided by build_query(), connect to the database
-           and place the results in a dataframe. Finally, pass the (clean) 
-           dataframe to create_graph().
-
-           Params:
-               query (`sqlalchemy.TextClause()`): A class representing a SQL
-                   query.
-
-           Returns:
-               `fig` from create_graph().
-        """
-        engine = create_engine("sqlite:///plotly_dash/palmerpenguins.sq3")
-        df = pd.read_sql_query(query, engine)
-        df = df.replace(r"^\s*$", np.nan, regex=True)
-        df = df.dropna()
-
-        return self._create_graph(df)
-    
-    def _create_graph(self, df: pd.DataFrame()) -> go.Figure():
+    def _create_graph(self, query: sqlalchemy.TextClause()) -> go.Figure():
         """Create a linear regression scattergraph.
            
            Create a scattergraph with a least squares line of best fit from the
            x and y-axis values and return it.
            
            Params:
-               df (`pd.Dataframe()`): A dataframe with 2 columns for the x and 
-                   y-axis values.
+               query (`sqlalchemy.TextClause()`): A class representing an SQL
+                   query.
 
            Returns:
                `fig`, a Plotly Express scattergraph (`go.Figure()`).
         """
+        df = _create_dataframe(query)
         fig = px.scatter(df, x=self.explanatory, y=self.response,
                          trendline='ols')
         fig.update_layout(
@@ -269,10 +251,10 @@ class MultipleRegression:
 
 
     def build_query(self):
-        """Build a SQL query from the user's chosen variables and species.
+        """Build an SQL query from the user's chosen variables and species.
         
-           Build a SQL query from the user's chosen variables and species
-           which is then passed to create_dataframe().
+           Build an SQL query from the user's chosen variables and species
+           which is then passed to _create_graph().
            
            Returns:
                `fig` from create_graph().
@@ -284,42 +266,22 @@ class MultipleRegression:
                          WHERE species 
                          LIKE {self.species}""")
 
-        return self._create_dataframe(query)
-    
-    def _create_dataframe(self, query: sqlalchemy.TextClause()) -> go.Figure():
-        """Create a dataframe by querying the database.
+        return self._create_graph(query)
 
-           With the query provided by build_query(), connect to the database
-           and place the results in a dataframe. Finally, pass the (clean) 
-           dataframe to create_graph().
-
-           Params:
-               query (`sqlalchemy.TextClause()`): A class representing a SQL
-                   query.
-
-           Returns:
-               `fig` from create_graph().
-        """
-        engine = create_engine("sqlite:///plotly_dash/palmerpenguins.sq3")
-        df = pd.read_sql_query(query, engine)
-        df = df.replace(r"^\s*$", np.nan, regex=True)
-        df = df.dropna()
-
-        return self._create_graph(df)
-
-    def _create_graph(self, df: pd.DataFrame()) -> go.Figure():
+    def _create_graph(self, query: sqlalchemy.TextClause()) -> go.Figure():
         """Create a 3D scattergraph.
            
            Create a 3D scattergraph from the three variables and pass it and 
-           the dataframe to draw_plane().
+           the dataframe to _draw_plane().
            
            Params:
-               df (`pd.DataFrame()`): A dataframe with 3 columns for the 
-                   explanatory and response variables.
+               query (`sqlalchemy.TextClause()`): A class representing an SQL
+                   query.
 
            Returns:
                `fig` from draw_plane().
         """
+        df = _create_dataframe(query)
         fig = px.scatter_3d(
             df,
             x=self.first_explanatory,
@@ -377,6 +339,7 @@ class MultipleRegression:
             model: sm.regression.linear_model.RegressionResultsWrapper(),
             fig: go.Figure()
             ) -> go.Figure():
+        # TODO: Explain params.
         """Draw a plane of best fit.
 
            From the multiple regression model, draw a plane of best fit to the
