@@ -116,13 +116,29 @@ class Histogram:
             " AND sex LIKE 'MALE'": "green",
             " AND sex LIKE 'FEMALE'": "yellow"
         }
+        sex_labels = {
+            "": "",
+            " AND sex LIKE 'MALE'": " Male",
+            " AND sex LIKE 'FEMALE'": " Female"
+        }
+        species_labels = {
+            "": "Adelie, Chinstrap, and Gentoo",
+            " AND species LIKE 'Adelie%'": "Adelie",
+            " AND species LIKE 'Chinstrap%'": "Chinstrap",
+            " AND species LIKE 'Gentoo%'": "Gentoo"
+        }
 
         # ! Plotly Express handles number of bins strangely...
         sqrt_of_data_points = int(sqrt(df.shape[0]))
         fig = px.histogram(df, x=self.variable, histnorm='probability',
                            nbins=sqrt_of_data_points)
-        fig.update_layout(xaxis_title=self.variable_label,
-                          yaxis_title='Probability')
+        fig.update_layout(
+            title=f'What is the Distribution of {self.variable_label} amongst'
+                  f'{sex_labels[self.sex]} {species_labels[self.species]} '
+                  'Penguins?',
+            xaxis_title=self.variable_label,
+            yaxis_title='Probability'
+            )
         fig.update_traces(
             marker_color=colours[self.species] if self.species else
             (colours[self.sex] if self.sex else "cornflowerblue")
@@ -200,8 +216,11 @@ class LinearRegression:
         """
         fig = px.scatter(df, x=self.explanatory, y=self.response,
                          trendline='ols')
-        fig.update_layout(xaxis_title=self.explanatory_label,
-                          yaxis_title=self.response_label)
+        fig.update_layout(
+            title=f'What is the Correlation between {self.species[1:-2]} '
+                  f'{self.explanatory_label} and {self.response_label}?',
+            xaxis_title=self.explanatory_label,
+            yaxis_title=self.response_label)
         fig.update_traces(marker_color=self.species_colour)
         fig.data[0]["hovertemplate"] = (f"{self.explanatory_label}=""%{x}<br>"
                                         f"{self.response_label}=""%{y}<extra>"
@@ -306,6 +325,10 @@ class MultipleRegression:
             x=self.first_explanatory,
             y=self.second_explanatory,
             z=self.response,
+            title=f'Can {self.species[1:-2]} '
+                  f'{self.first_explanatory_label} and '
+                  f'{self.second_explanatory_label} Help Predict '
+                  f'{self.response_label}?',
             labels={
                 self.first_explanatory: self.first_explanatory_label,
                 self.second_explanatory: self.second_explanatory_label,
