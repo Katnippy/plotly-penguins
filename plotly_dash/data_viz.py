@@ -339,17 +339,19 @@ class MultipleRegression:
             model: sm.regression.linear_model.RegressionResultsWrapper(),
             fig: go.Figure()
             ) -> go.Figure():
-        # TODO: Explain params.
         """Draw a plane of best fit.
 
            From the multiple regression model, draw a plane of best fit to the
            graph and return it. 
 
            Params:
-               first_explanatory (`pd.Series()`): ...
-               second_explanatory (`pd.Series()`): ...
+               first_explanatory (`pd.Series()`): A series for data 
+                   corresponding to the first explanatory variable.
+               second_explanatory (`pd.Series()`): A series for data 
+                   corresponding to the second explanatory variable.
                model (`sm.regression.linear_model.RegressionResultsWrapper()`):
-                   ...
+                   A summary of the statsmodels multiple regression from 
+                       _fit_model().
                fig (`go.Figure()`): A Plotly Express 3D scattergraph.
 
            Returns:
@@ -364,7 +366,7 @@ class MultipleRegression:
             )
         z = z_intercept + (x_slope * xx1) + (y_slope * xx2)
 
-        # ! Equation text is quite lengthy.
+        # ! Equation text makes the hover box quite lengthy.
         # ? hovertemplate code isn't very human-readable.
         fig.add_trace(go.Surface(
             x=xx1,
