@@ -1,6 +1,15 @@
-#
-# TODO: Need docstring describing this module.
-""""""
+"""A collection of graphs for visualising the palmerpenguins dataset.
+
+Alongside a utils class and a shared function, this module contains three
+classes each representing a type of graph for interactive data visualisation
+based on the palmerpenguins dataset: a histogram (for normal and other
+distributions), a scattergraph (for linear regression), and a 3D scattergraph
+(for multiple regression).
+
+Typical usage example:
+
+    figure = Class(args).build_query()
+"""
 
 from __future__ import annotations
 
@@ -49,7 +58,7 @@ def _create_dataframe(query: sqlalchemy.TextClause()) -> pd.DataFrame():
        Returns:
            df, a Pandas dataframe (`pd.Dataframe()`) with a column or columns
            for the user's chosen variable(s), species, etc.
-        """
+    """
     try:
         engine = create_engine("sqlite:///plotly_dash/palmerpenguins.sq3")
         df = pd.read_sql_query(query, engine)
@@ -352,7 +361,7 @@ class MultipleRegression:
                    corresponding to the second explanatory variable.
                model (`sm.regression.linear_model.RegressionResultsWrapper()`):
                    A summary of the statsmodels multiple regression from 
-                       _fit_model().
+                   _fit_model().
                fig (`go.Figure()`): A Plotly Express 3D scattergraph.
 
            Returns:
