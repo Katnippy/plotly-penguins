@@ -28,7 +28,9 @@ class GraphUtils:
     colours = {
         "'Adelie%'": "deeppink",
         "'Chinstrap%'": "black",
-        "'Gentoo%'": "darkorange"
+        "'Gentoo%'": "darkorange",
+        " AND sex LIKE 'MALE'": "green",
+        " AND sex LIKE 'FEMALE'": "yellow"
         }
     
 
@@ -75,6 +77,7 @@ class Histogram:
         self.variable = variable
 
         self.variable_label = GraphUtils.labels[variable]
+        self.colours = GraphUtils.colours
 
     def build_query(self):
         """Build an SQL query from the user's chosen variable and filters.
@@ -115,15 +118,6 @@ class Histogram:
                `fig`, a Plotly Express histogram (`go.Figure()`).
         """
         df = _create_dataframe(query)
-        # ? Add colours for when a specific species and sex are both selected?
-        # TODO: Surely these colours can be moved to GraphUtils()...
-        colours = {
-            " AND species LIKE 'Adelie%'": "deeppink",
-            " AND species LIKE 'Chinstrap%'": "black",
-            " AND species LIKE 'Gentoo%'": "darkorange",
-            " AND sex LIKE 'MALE'": "green",
-            " AND sex LIKE 'FEMALE'": "yellow"
-        }
         sex_labels = {
             "": "",
             " AND sex LIKE 'MALE'": " Male",
@@ -147,9 +141,10 @@ class Histogram:
             xaxis_title=self.variable_label,
             yaxis_title='Probability'
             )
+        # ? Add colours for when a specific species and sex are both selected?
         fig.update_traces(
-            marker_color=colours[self.species] if self.species else
-            (colours[self.sex] if self.sex else "cornflowerblue")
+            marker_color=self.colours[self.species[18:]] if self.species else
+            (self.colours[self.sex] if self.sex else "cornflowerblue")
             )
 
         return fig
