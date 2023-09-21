@@ -1,3 +1,6 @@
 env/
 __pycache__/
 todo.txt
+style.css
+style.css.map
+layout.png
