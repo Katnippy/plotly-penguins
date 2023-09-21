@@ -5,6 +5,8 @@
 from __future__ import annotations
 
 from sqlalchemy import create_engine, text
+from sqlalchemy.exc import OperationalError, SQLAlchemyError
+import logging
 import pandas as pd
 import numpy as np
 import plotly.express as px
@@ -30,7 +32,6 @@ class GraphUtils:
         }
     
 
-# TODO: Handle exception(s) if connection / query fails.
 # ? Does this need to be split up into 2 separate functions?
 def _create_dataframe(query: sqlalchemy.TextClause()) -> pd.DataFrame():
     """Create a dataframe by querying the database.
@@ -47,12 +48,17 @@ def _create_dataframe(query: sqlalchemy.TextClause()) -> pd.DataFrame():
            df, a Pandas dataframe (`pd.Dataframe()`) with a column or columns
            for the user's chosen variable(s), species, etc.
         """
-    engine = create_engine("sqlite:///plotly_dash/palmerpenguins.sq3")
-    df = pd.read_sql_query(query, engine)
-    df = df.replace(r"^\s*$", np.nan, regex=True)
-    df = df.dropna()
+    try:
+        engine = create_engine("sqlite:///plotly_dash/palmerpenguins.sq3")
+        df = pd.read_sql_query(query, engine)
+        df = df.replace(r"^\s*$", np.nan, regex=True)
+        df = df.dropna()
 
-    return df
+        return df
+    except OperationalError as e:
+        logging.error(f"Can't connect to database: {e}")
+    except SQLAlchemyError as e:
+        logging.error(f"Unexpected SQLAlchemy error: {e}")
 
 
 class Histogram:
