@@ -8,7 +8,8 @@ from plotly_dash.histograms import histograms
 from plotly_dash.linear_regression import linear_regression
 from plotly_dash.multiple_regression import multiple_regression
 
-flask_app = Flask(__name__)
+flask_app = Flask(__name__, instance_relative_config=False)
+flask_app.config.from_pyfile("../config.py")
 
 histograms.init_dash_app(flask_app)
 linear_regression.init_dash_app(flask_app)
