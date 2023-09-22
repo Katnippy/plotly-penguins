@@ -20,5 +20,10 @@ def index():
     return render_template("index.html.j2")
 
 
+@flask_app.route("/glossary/")
+def glossary():
+    return render_template("glossary.html.j2")
+
+
 if __name__ == "__main__":
     flask_app.run(debug=True)
