@@ -215,8 +215,8 @@ class LinearRegression:
             yaxis_title=self.response_label)
         fig.update_traces(marker_color=self.species_colour)
         fig.data[0]["hovertemplate"] = (f"{self.explanatory_label}=""%{x}<br>"
-                                        f"{self.response_label}=""%{y}<extra>"
-                                        "</extra>")
+                                        f"{self.response_label}=""%{y}"
+                                        "<extra></extra>")
         
         x_slope = (
             px.get_trendline_results(fig).px_fit_results.iloc[0].params[1])
@@ -228,11 +228,12 @@ class LinearRegression:
                                         f"{self.response_label} = "
                                         f"{x_slope:.8f} * "
                                         f"{self.explanatory_label} + "
-                                        f"{y_intercept:.3f}<br>R²="
-                                        f"{r_squared:.6f}<br><br>"
+                                        f"{y_intercept:.3f}<br>"
+                                        f"R²={r_squared:.6f}<br><br>"
                                         f"{self.explanatory_label}=""%{x}<br>"
-                                        f"{self.response_label}=""%{y:.4f} <b>"
-                                        "(trend)</b><extra></extra>")
+                                        f"{self.response_label}=""%{y:.4f}"
+                                        "<b>(trend)</b>"
+                                        "<extra></extra>")
         
         return fig
     
@@ -377,7 +378,6 @@ class MultipleRegression:
         z = z_intercept + (x_slope * xx1) + (y_slope * xx2)
 
         # ! Equation text makes the hover box quite lengthy.
-        # ? hovertemplate code isn't very human-readable.
         fig.add_trace(go.Surface(
             x=xx1,
             y=xx2,
