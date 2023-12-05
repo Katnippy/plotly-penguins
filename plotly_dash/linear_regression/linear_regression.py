@@ -9,7 +9,7 @@ from data_viz import LinearRegression
 
 # Run the Dash app inside of the Flask app. 
 def init_dash_app(flask_app):
-    dash_app = Dash(server=flask_app, name='Linear regression',
+    dash_app = Dash(__name__, server=flask_app, 
                     url_base_pathname='/linear_regression/')
 
     # Build components.
