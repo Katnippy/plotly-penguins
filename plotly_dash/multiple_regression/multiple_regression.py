@@ -96,8 +96,8 @@ def init_dash_app(flask_app):
 
         Params:
             species (str): The user's choice of penguin species.       
-            first_explanatory (str): The user's choice for the first explanatory 
-                variable.
+            first_explanatory (str): The user's choice for the first
+                explanatory variable.
             second_explanatory (str): The user's choice for the second
                 explanatory variable.
             response (str): The user's choice for the response variable.
@@ -105,8 +105,8 @@ def init_dash_app(flask_app):
         Returns:
             `figure`, a Plotly Express 3D scattergraph (`go.Figure()`).
         """
-        figure = MultipleRegression(species, first_explanatory, second_explanatory,
-                                    response).build_query()
+        figure = MultipleRegression(species, first_explanatory, 
+                                    second_explanatory, response).build_query()
 
         return figure
     

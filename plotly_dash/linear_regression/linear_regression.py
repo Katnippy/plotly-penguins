@@ -53,7 +53,8 @@ def init_dash_app(flask_app):
             species_radio
             ]),
         html.Div(children=[
-            html.H4("Explanatory variable (x-axis)", style={"display": "inline"}),
+            html.H4("Explanatory variable (x-axis)", 
+                    style={"display": "inline"}),
             explanatory_radio
             ], className='explanatory-radio'),
         html.Div(children=[
@@ -69,7 +70,8 @@ def init_dash_app(flask_app):
         Input(explanatory_radio, component_property='value'),
         Input(response_radio, component_property='value')
         )
-    def update_graph(species: str, explanatory: str, response: str) -> go.Figure():
+    def update_graph(species: str, explanatory: str, 
+                     response: str) -> go.Figure():
         """Update the graph from user inputs.
 
         Take in the user's choice of penguin species and x and y-axis variables 

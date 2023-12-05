@@ -73,8 +73,8 @@ def init_dash_app(flask_app):
     def update_graph(species: str, sex: str, variable: str) -> go.Figure():
         """Update the graph from user inputs.
 
-        Take in the user's choice of data visualisation filters and variable and
-        return a corresponding histogram.
+        Take in the user's choice of data visualisation filters and variable 
+        and return a corresponding histogram.
 
         Params:
             species (str): The user's choice of species to filter by (or 
