@@ -1,9 +1,7 @@
 from __future__ import annotations
-import sys
 
 from dash import Dash, dcc, html, Output, Input
 
-sys.path.append("plotly_dash/")
 from data_viz import MultipleRegression
 
 
