@@ -2,28 +2,42 @@
 
 {% block head %}
 <title>Plotly Penguins</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
 {% endblock %}
 
 {% block body %}
-<div id="container">
-  <div id="main-heading">
-    <h1>Plotly Penguins</h1>
-  </div>
-  <div id="urls">
-    <div class="url">
-      <a href="/glossary/">Glossary</a>
-    </div>
-    <br>
-    <div class="url">
-      <a href="/histograms/">Histograms</a>
-    </div>
-    <br>
-    <div class="url">
-      <a href="/linear_regression/">Linear regression</a>
-    </div>
-    <br>
-    <div class="url">
-      <a href="/multiple_regression/">Multiple regression</a>
+<div id="content" class="d-flex align-items-center justify-content-center">
+  <div class="container my-5">
+    <div class="p-5 text-center bg-body-tertiary rounded-3">
+      <div class="container py-2">
+        <h1 class="text-body-emphasis">Plotly Penguins</h1>
+        <img src="static/images/palmerpenguins.png" width="150" height="173">
+        <p class="col-lg-8 mx-auto lead">
+          <div id="urls">
+            <div class="url mb-2">
+              <a href="/glossary/">Glossary</a>
+            </div>
+            <div class="url mb-2">
+              <a href="/histograms/">Histograms</a>
+            </div>
+            <div class="url mb-2">
+              <a href="/linear_regression/">Linear regression</a>
+            </div>
+            <div class="url mb-5">
+              <a href="/multiple_regression/">Multiple regression</a>
+            </div>
+          </div>
+          <div id="footer" class="fst-italic">
+            <div id="warning">
+              Please note that this web app is designed for desktop only.
+            </div>
+            <div id="credit">
+              Artwork by <a href="https://twitter.com/allison_horst">
+              @allison_horst</a>
+            </div>
+          </div>
+        </p>
+      </div>
     </div>
   </div>
 </div>
