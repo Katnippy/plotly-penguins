@@ -2,77 +2,56 @@
 
 {% block head %}
 <title>Glossary</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='css/glossary.css') }}">
 {% endblock %}
 
 {% block body %}
-<div id="container">
-  <div id="main-heading">
-    <h1>Glossary</h1>
-  </div>
-  <div id="measurements">
-    <div class="heading">
-      <h2>Measurements</h2>
-    </div>
-    <div class="subheading">
-      <h3>Culmen length</h3>
-    </div>
-    <div class="text">
-      <h4>The culmen is the upper part of a penguin's bill, with the length
-        measured from the tip of the bill upwards to a set point.</h4>
-    </div>
-    <div class="subheading">
-      <h3>Culmen depth</h3>
-    </div>
-    <div class="text">
-      <h4>The culmen depth is measured from the top part of the bill to the 
-        bottom part of the bill.</h4>
-    </div>
-    <div class="subheading">
-      <h3>δ13C</h3>
-    </div>
-    <div class="text">
-      <h4>The ratio of the 2 stable carbon isotopes 13C:12C; tells us about 
-        foraging behaviour, such as inshore vs. offshore foraging 
-        <a href=https://www.int-res.com/articles/meps2002/234/m234p289.pdf>
-        (Forero et al., 2002, p.290)</a>.
-      </h4>
-    </div>
-    <div class="subheading">
-      <h3>δ15N</h3>
-    </div>
-    <div class="text">
-      <h4>The ratio of the 2 stable nitrogen isotopes 15N:14N; tells us the 
-        trophic level, or position of an organism in the food chain 
-        <a href=http://people.uncw.edu/emslies/documents/vasiletal.2012-rcms.pdf>
-        (Vasil et al., 2012, p.487)</a>.
-      </h4>
-    </div>
-  </div>
-  <br>
-  <div id="statistics">
-    <div class="heading">
-      <h2>Statistics</h2>
-    </div>
-    <div class="subheading">
-      <h3>Linear regression</h3>
-    </div>
-    <div class="text">
-      <h4>Can some of the variation in a variable be 'explained' by taking 
-        another variable into account? i.e. is there a correlation between the 
-        two variables? <a href="https://www.youtube.com/watch?v=nk2CQITm_eo">
-        (StatQuest with Josh Starmer, 2017)</a>
-      </h4>
-    </div>
-    <div class="subheading">
-      <h3>Multiple regression</h3>
-    </div>
-    <div class="text">
-      <h4>Can some of the variation in a variable be 'explained' by taking two 
-        other variables into account? i.e. is there a correlation between the 
-        three variables that's stronger than just the two on their own? 
-        <a href="https://www.youtube.com/watch?v=zITIFTsivN8">
-        (StatQuest with Josh Starmer, 2017)</a>
-      </h4>
+<div id="content" class="d-flex align-items-center justify-content-center">
+  <div class="container my-5">
+    <div class="p-5 bg-body-tertiary rounded-3">
+      <div class="container py-2">
+        <h1 class="text-body-emphasis text-center">Glossary</h1>
+        <div class="heading">
+          <p class="col-lg-8 mx-auto lead text-decoration-underline">Measurements</p>
+        </div>
+        <p class="col-lg-6 mx-auto">
+          <b>Culmen length</b> - the culmen is the upper part of a penguin's 
+          bill, with the length measured from the tip of the bill upwards to a 
+          set point.
+        </p>
+        <p class="col-lg-6 mx-auto">
+          <b>Culmen depth</b> - the culmen depth is measured from the top part 
+          of the bill to the bottom part of the bill.
+        </p>
+        <p class="col-lg-6 mx-auto">
+          <b>δ13C</b> - the ratio of the 2 stable carbon isotopes 13C:12C; 
+          tells us about foraging behaviour, such as inshore vs. offshore 
+          foraging <a href=https://www.int-res.com/articles/meps2002/234/m234p289.pdf>
+          (Forero et al., 2002, p.290)</a>.
+        </p>
+        <p class="col-lg-6 mx-auto">
+          <b>δ15N</b> - the ratio of the 2 stable nitrogen isotopes 15N:14N; 
+          tells us the trophic level, or position of an organism in the food 
+          chain <a href=http://people.uncw.edu/emslies/documents/vasiletal.2012-rcms.pdf>
+          (Vasil et al., 2012, p.487)</a>.
+        </p>
+        <div class="heading">
+          <p class="col-lg-8 mx-auto lead text-decoration-underline">Statistics</p>
+        </div>
+        <p class="col-lg-6 mx-auto">
+          <b>Linear regression</b> - can some of the variation in a variable be 
+          'explained' by taking another variable into account? i.e. is there a 
+          correlation between the two variables? <a href="https://www.youtube.com/watch?v=nk2CQITm_eo">
+          (StatQuest with Josh Starmer, 2017)</a>
+        </p>
+        <p class="col-lg-6 mx-auto">
+          <b>Linear regression</b> - can some of the variation in a variable be 
+          'explained' by taking two other variables into account? i.e. is there 
+          a correlation between the three variables that's stronger than just 
+          the two on their own? <a href="https://www.youtube.com/watch?v=zITIFTsivN8">
+          (StatQuest with Josh Starmer, 2017)</a>
+        </p>
+      </div>
     </div>
   </div>
 </div>
