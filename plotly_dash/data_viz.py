@@ -392,7 +392,7 @@ class MultipleRegression:
                           f'{self.second_explanatory_label}=''%{y:.4f}<br>'
                           f'{self.response_label}=''%{z:.4f} '
                           '<b>(trend)</b><extra></extra>',
-            colorscale='haline',
+            colorscale='spectral',
             colorbar=dict(title=f'Predicted {self.response_label}')
             ))
 
