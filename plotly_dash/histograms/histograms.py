@@ -7,13 +7,14 @@ sys.path.append("plotly_dash/")
 from data_viz import Histogram
 
 
-# Run the Dash app inside of the Flask app. 
+# Run the Dash app inside of the Flask app.
 def init_dash_app(flask_app):
     dash_app = Dash(server=flask_app, name='Histograms',
-                    url_base_pathname='/histograms/')
+                    url_base_pathname='/histograms/',
+                    assets_folder='plotly_dash/histograms/assets')
 
     # Build components.
-    title = dcc.Markdown(children='# Histograms.')
+    title = dcc.Markdown(children='# Histograms')
     graph = dcc.Graph(figure={})
     species_radio = dcc.RadioItems([
         {"label": "All species together", "value": ""},
@@ -32,7 +33,6 @@ def init_dash_app(flask_app):
         value="",
         inline=True
         )
-    # TODO: Explain what these measurements mean.
     variable_radio = dcc.RadioItems([
         {"label": "Culmen Length (mm)", "value": "culmen_length_mm"},
         {"label": "Culmen Depth (mm)", "value": "culmen_depth_mm"},
@@ -52,15 +52,15 @@ def init_dash_app(flask_app):
         html.Div(children=[
             html.H4("Filter by species", style={"display": "inline"}),
             species_radio
-            ]),
+            ], className='species-radio'),
         html.Div(children=[
             html.H4("Filter by sex", style={"display": "inline"}),
             sex_radio
-            ]),
+            ], className='sex-radio'),
         html.Div(children=[
             html.H4("Variable", style={"display": "inline"}),
             variable_radio
-            ])
+            ], className='variable-radio')
         ])
 
 
@@ -86,6 +86,8 @@ def init_dash_app(flask_app):
             `figure`, a Plotly Express histogram (`go.Figure()`).
         """
         figure = Histogram(species, sex, variable).build_query()
+        figure.update_layout(plot_bgcolor='rgba(255, 255, 255, 0.2)', 
+                             paper_bgcolor='rgba(0, 0, 0, 0)')
 
         return figure
 

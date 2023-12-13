@@ -1,0 +1,15 @@
+@import "https://fonts.googleapis.com/css?family=Inter";
+html,
+body {
+  background-color: #d1f7ff;
+  font-family: "Inter", "Arial", "Helvetica", "sans-serif";
+}
+
+.species-radio {
+  margin: 0.5rem 0;
+}
+
+.sex-radio,
+.variable-radio {
+  margin-bottom: 0.5rem;
+}/*# sourceMappingURL=style.css.map */

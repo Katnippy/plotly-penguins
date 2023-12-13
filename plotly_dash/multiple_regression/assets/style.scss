@@ -1,0 +1,19 @@
+@import "https://fonts.googleapis.com/css?family=Inter";
+
+$font: 'Inter', 'Arial', 'Helvetica', 'sans-serif';
+
+html,
+body {
+  background-color: #d1f7ff;
+  font-family: $font;
+}
+
+.species-radio {
+  margin: 0.5rem 0;
+}
+
+.first-explanatory-radio,
+.second-explanatory-radio,
+.response-radio {
+  margin-bottom: 0.5rem;
+}

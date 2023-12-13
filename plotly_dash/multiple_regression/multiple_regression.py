@@ -11,7 +11,7 @@ def init_dash_app(flask_app):
                     url_base_pathname='/multiple_regression/')
 
     # Build components.
-    title = dcc.Markdown(children='# Multiple regression.')
+    title = dcc.Markdown(children='# Multiple regression')
     graph = dcc.Graph(figure={})
     species_radio = dcc.RadioItems([
         {"label": "Adelie", "value": "'Adelie%'"},
@@ -62,7 +62,7 @@ def init_dash_app(flask_app):
         html.Div(children=[
             html.H4("Filter by species", style={"display": "inline"}),
             species_radio
-            ]),
+            ], className='species-radio'),
         html.Div(children=[
             html.H4("First explanatory variable (x-axis)", 
                     style={"display": "inline"}),
@@ -107,6 +107,8 @@ def init_dash_app(flask_app):
         """
         figure = MultipleRegression(species, first_explanatory, 
                                     second_explanatory, response).build_query()
+        figure.update_layout(plot_bgcolor='rgba(0, 0, 0, 0)', 
+                             paper_bgcolor='rgba(0, 0, 0, 0)')
 
         return figure
     

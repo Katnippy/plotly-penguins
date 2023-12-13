@@ -11,7 +11,7 @@ def init_dash_app(flask_app):
                     url_base_pathname='/linear_regression/')
 
     # Build components.
-    title = dcc.Markdown(children='# Linear regression.')
+    title = dcc.Markdown(children='# Linear regression')
     graph = dcc.Graph(figure={})
     species_radio = dcc.RadioItems([
         {"label": "Adelie", "value": "'Adelie%'"},
@@ -51,7 +51,7 @@ def init_dash_app(flask_app):
         html.Div(children=[
             html.H4("Filter by species", style={"display": "inline"}),
             species_radio
-            ]),
+            ], className='species-radio'),
         html.Div(children=[
             html.H4("Explanatory variable (x-axis)", 
                     style={"display": "inline"}),
@@ -86,6 +86,8 @@ def init_dash_app(flask_app):
             `figure`, a Plotly Express scattergraph (`go.Figure()`).
         """
         figure = LinearRegression(species, explanatory, response).build_query()
+        figure.update_layout(plot_bgcolor='rgba(255, 255, 255, 0.2)', 
+                             paper_bgcolor='rgba(0, 0, 0, 0)')
 
         return figure
     
