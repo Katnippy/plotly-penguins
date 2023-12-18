@@ -9,6 +9,7 @@ An interactive web app for performing various statistical analyses on the [palme
 * [Flask](https://flask.palletsprojects.com/en/3.0.x/)
 * [SQLite](https://www.sqlite.org/index.html)
 * [Bootstrap](https://getbootstrap.com/)
+* [Sass](https://sass-lang.com/)
 
 ## Authors
 * Katnippy (https://github.com/Katnippy)
